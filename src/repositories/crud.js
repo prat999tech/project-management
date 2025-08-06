@@ -35,3 +35,4 @@ class crud{
         }
 }
 }
+export default crudrepo
