@@ -1,10 +1,25 @@
 import { UserRepository } from '../repositories/user.repository.js';
 import { apierror } from '../utils/apierror.js';
 import bcrypt from 'bcrypt';
+import { User } from '../models/user.model.js';
 
 class UserService {
     constructor() {
         this.userRepository = new UserRepository();
+    }
+    async generateAccessTokenandRefreshToken(userid){
+        try{
+            const user=await User.findById(userid);
+            const accessToken=await user.createAccessToken();
+            const refreshToken=await user.createRefreshToken();
+            user.refreshToken=refreshToken;
+            await user.save({validateBeforeSave:false});
+            return {accessToken,refreshToken};
+        }
+        catch(error){
+            console.error(error);
+            throw new apierror(404,"something went wrong while generating access and refresh token");
+        }
     }
 
     async registerUser({ username, email, password, role, department }) {
@@ -35,13 +50,23 @@ class UserService {
         return createduser;
     }
 
-    // You can add other user-related services here, like loginUser
-    async loginUser({ email, password }) {
-        // TODO: Implement login logic
-        // 1. Find user by email
-        // 2. Compare password
-        // 3. Generate JWT token
-        // 4. Return user and token
+    async loginUser({ email, username,password }) {
+        const user=await this.userRepository.findByEmailOrUsername(email,username);
+        if(!user){
+            throw new apierror(404,"user doesnt exist");
+
+        }
+        const isPasswordValid=await user.isPasswordCorrect(password);
+        if(!isPasswordValid){
+            throw new apierror(401,"invalid credentials");
+
+        }
+        const {AccessToken,RefreshToken}=user.generateAccessTokenandRefreshToken(user._id);
+        const loggedInUser=await this.userRepository.findbyid(user._id);
+        return {loggedInUser,AccessToken,RefreshToken};
+        
+
+        
     }
 }
 

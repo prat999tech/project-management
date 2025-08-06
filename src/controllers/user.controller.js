@@ -75,9 +75,39 @@ const registerUser = asyncHandler(async (req, res) => {
 
 // Add other controllers as you build them
 // const loginUser = asyncHandler(async (req, res) => { ... });
+const loginUser=asyncHandler(async(req,res,next)=>{
+    console.log("inside login user");
+    const {username,email,password}=req.body;
+    if([username,email,password].some((field)=>field?.trim()==="")){
+        console.log("fields missing");
+        throw new apierror(400,"all fields are required");
+        
+    }
+    const {loggedInUser,accessToken,refreshToken}=await userService.loginUser({
+        username,
+        email,
+        password
+    });
+    const options={
+        httpOnly:true,
+        secure:true
+
+    };
+    return res.status(200).cookie("accessToken",accessToken,options).cookie("refreshToken",refreshToken,options).json(
+        apiresponse(200,{
+            loggedInUser,
+            accessToken,
+            refreshToken
+        },
+        "user logged in successfully"
+    )
+    );
+    
+})
 
 export {
-    registerUser
+    registerUser,
+    loginUser
 };
 
 

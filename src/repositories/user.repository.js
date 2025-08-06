@@ -16,6 +16,7 @@ class UserRepository extends CrudRepository {
         const user=await this.model.findById(userid).select("-password -refreshtoken");
         return user;
     }
+    
 }
 
 export { UserRepository };
