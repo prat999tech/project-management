@@ -3,6 +3,7 @@ dotenv.config({ path: './env' });
 
 // Import the database connection function
 import connectDB from './db/index.db.js';
+import { connectRedis } from './db/redis.db.js';
 
 // Import the Express application instance
 // We will import it inside the .then block to ensure Mongoose is initialized
@@ -15,6 +16,8 @@ connectDB()
         // Import the app here, after the database connection is established.
         // This ensures that any files imported by app.js (like models)
         // will be processed when Mongoose is ready.
+        connectRedis();
+
         import('./app.js')
             .then(({ app }) => { // Use dynamic import and destructure 'app'
                 // Start the Express application server
