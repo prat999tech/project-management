@@ -1,47 +1,39 @@
 import mongoose from "mongoose";
-const projectSchema = mongoose.Schema({
-    project:{
+
+const submissionSchema = new mongoose.Schema({
+    project: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project',
-        required: true
+        required: true,
+        index: true
     },
-    submittedby:{
+    student: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
-    },
-    fileurl:{
-        type: String,
         required: true,
-        
+        index: true
     },
-    studentcomment:{
+    content: {
         type: String,
         trim: true
     },
-    submitteddate:{
-        type: Date,
-        default: Date.now
+    fileUrl: {
+        type: String, // URL to the uploaded file (e.g., from Cloudinary or S3)
+        trim: true
     },
-    feedback:{
-        text:String,
-        givenby:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        date: {
-            type: Date,
-            default: Date.now
-        },
-
-
+    status: {
+        type: String,
+        enum: ['Pending Review', 'Approved', 'Rejected'],
+        default: 'Pending Review'
     },
-    marks:{
-        type: Number,
-        min: 0,
-        max: 100,
-        default: 0
+    grade: {
+        type: String,
+        trim: true
+    },
+    feedback: {
+        type: String,
+        trim: true
     }
-},{timestamps: true});
-export const Submission = mongoose.model('Submission', projectSchema);
+}, { timestamps: true });
+
+export const Submission = mongoose.model('Submission', submissionSchema);

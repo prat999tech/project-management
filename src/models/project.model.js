@@ -4,17 +4,26 @@ const projectSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        index: true // it helps in searching in database
+        index: true
     },
     description: {
         type: String,
         required: true,
         trim: true
     },
+    instructions: { // New field for specific instructions
+        type: String,
+        trim: true
+    },
     status: {
         type: String,
-        enum: ['ongoing', 'completed', 'on hold'],
-        default: 'ongoing'
+        enum: ['Ongoing', 'Completed', 'On Hold'],
+        default: 'Ongoing'
+    },
+    priority: { // New field for priority level
+        type: String,
+        enum: ['Low', 'Medium', 'High'],
+        default: 'Medium'
     },
     facultyadvisor:{
         type: mongoose.Schema.Types.ObjectId,
@@ -37,4 +46,3 @@ const projectSchema = mongoose.Schema({
     }
 },{timestamps: true});
 export const Project = mongoose.model('Project', projectSchema);
-    
