@@ -1,5 +1,5 @@
 import { Project } from '../models/project.model.js';
-import { CrudRepository } from './crud.js';
+import { CrudRepository } from './CrudRepository.js';
 import mongoose from 'mongoose';
 
 class ProjectRepository extends CrudRepository {

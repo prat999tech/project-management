@@ -6,5 +6,4 @@ const DepartmentSchema = new mongoose.Schema({
     description: { type: String }
 }, { timestamps: true });
 
-const Department = mongoose.model('Department', DepartmentSchema);
-export default Department;
+export const Department = mongoose.model('Department', DepartmentSchema);

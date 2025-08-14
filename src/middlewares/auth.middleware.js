@@ -1,7 +1,7 @@
 //yeh middleware sirf verufy krega ki user ha ya nhi
 
 import { apierror } from "../utils/apierror.js";
-import { asyncHandler } from "../utils/asynchandler.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 

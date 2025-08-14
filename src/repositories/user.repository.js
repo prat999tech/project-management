@@ -22,7 +22,7 @@ class UserRepository extends CrudRepository {
 export { UserRepository };
 */
 import { User } from '../models/user.model.js';
-import { CrudRepository } from './crud.js';
+import { CrudRepository } from './CrudRepository.js';
 import { redisClient } from '../db/redis.db.js';
 //import { apierror } from '../utils/apierror.js';
 
