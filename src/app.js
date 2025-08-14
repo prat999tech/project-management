@@ -33,10 +33,18 @@ app.use(limiter);
 
 // --- Routes Import ---
 import userRouter from './routes/user.routes.js';
+import studentRouter from './routes/student.routes.js'; // New
+import teacherRouter from './routes/teacher.routes.js'; // Ensure this is imported
+
+
 
 
 // --- Routes Declaration ---
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/student', studentRouter); // New
+app.use('/api/v1/teacher', teacherRouter); // <-- Add this line to use the teacher routes
+
+
 
 
 export { app };
