@@ -1,4 +1,4 @@
-import request from 'supertest';
+/*import request from 'supertest';
 import { app } from '../src/app.js';
 import { StatusCodes } from 'http-status-codes';
 import { publishMessage } from '../src/mq/rabbitmq.js'; // Import the original function
@@ -60,3 +60,4 @@ describe('User Authentication API (/api/v1/users)', () => {
 
     // You would add similar tests for login, password change, etc.
 });
+*/

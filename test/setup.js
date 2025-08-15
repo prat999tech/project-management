@@ -1,28 +1,24 @@
+// test/setup.js
+
 import mongoose from 'mongoose';
 
-const MONGODB_URI = "mongodb://%2Ftmp%2Fmongodb%2Fmongodb.sock/project-management-test";
+// Connect to the test database provided by the IDX environment
+const MONGODB_URI = "mongodb://localhost:27017/project-management-test";
 
-// Before all tests run, establish a connection to the test database.
+// Before all tests, establish the connection
 beforeAll(async () => {
-    await mongoose.connect(MONGODB_URI, {
-        // Increase the server selection timeout to 30 seconds
-        serverSelectionTimeoutMS: 60000 
-    });
+    await mongoose.connect(MONGODB_URI);
 });
 
-// After all tests have finished, clear the database and close the connection.
-afterAll(async () => {
-    const collections = mongoose.connection.collections;
-    for (const key in collections) {
-        await collections[key].deleteMany({});
-    }
-    await mongoose.connection.close();
-});
-
-// Before each individual test, clear all data from all collections.
+// After each test, clear all collections to ensure a clean state
 beforeEach(async () => {
     const collections = mongoose.connection.collections;
     for (const key in collections) {
         await collections[key].deleteMany({});
     }
+});
+
+// After all tests have run, close the connection
+afterAll(async () => {
+    await mongoose.connection.close();
 });
